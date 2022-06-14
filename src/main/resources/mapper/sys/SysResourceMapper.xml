@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suo.sdemo.buss.sys.mapper.SysResourceMapper">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        resource_id, name, code, parent_id, type, deleted
+    </sql>
+    <select id="findByRoleId" resultType="com.suo.sdemo.buss.sys.entity.SysResource">
+		SELECT sr.* FROM sys_resource  sr
+		INNER JOIN sys_role_resource  srr on sr.resource_id = srr.resource_id and srr.role_id = #{roleId}
+		where sr.deleted = ${@com.suo.sdemo.util.AppUtils@DEL_FALSE}
+		order by sr.type,sr.parent_Id
+	</select>
+</mapper>

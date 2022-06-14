@@ -1,0 +1,21 @@
+spring:
+  redis:
+    host: 10.8.83.103
+    port: 6379
+  datasource:
+    host: 10.8.83.100
+    database: compass
+    port: 1433
+    url: jdbc:sqlserver://${spring.datasource.host}:${spring.datasource.port};DatabaseName=${spring.datasource.database}
+    username: sa
+    password: db@2021
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+logging:
+  level:
+    com.hongyun.compass: INFO
+swagger:
+  enable: false
+app:
+  file-view: 
+    add-task: http://kfv.lenovoedu.cn/addTask?url=

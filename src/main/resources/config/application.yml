@@ -1,0 +1,89 @@
+spring:
+  profiles:
+    active: '@profiles.active@'
+  application:
+    name: compass
+  messages:
+    basename: i18n/messages
+  redis:
+    host: 10.103.237.33
+    port: 6379
+#    password: lenovo123
+    key-prefix: compass
+    lock-expire-time: 30 #分钟,分布式锁过期时间
+    jedis:
+      pool:
+        max-active: 300
+        time-between-eviction-runs: 60s
+        min-idle: 8
+  datasource:
+    host: 127.0.0.1
+    database: sdemo
+    port: 1433
+    url: jdbc:mysql://${spring.datasource.host}:${spring.datasource.port}/${spring.datasource.database}?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver 
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  mvc:
+    format: 
+      date: yyyy-MM-dd
+      date-time: yyyy-MM-dd HH:mm:ss
+      time: HH:mm:ss
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 1024MB
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  
+server:
+  port: 8080
+  servlet: 
+    context-path: /compass
+
+logging:
+  file:
+    path: 
+    name: /logs/compass/compass.log
+    max-history: 30
+  level:
+    com.hongyun.compass: DEBUG
+shiro:
+  session:
+    timeout: 7200000   #2*60*60*1000 两小时
+swagger:
+  enable: true
+  
+cors:
+  allow-origin: "*"
+  allow-credentials: false
+  allow-methods: "*"
+  allow-headers: "*"
+
+#文件存储地址
+file:
+  storage-path: /data/compass/files #上传文件父路径
+
+app:
+  report:
+    single:
+      compute-year: 4  
+  user:
+    password: 111111
+  file-view: #文件预览
+    add-task: http://kfv.lenovoedu.cn/addTask?url= #提前预览任务
+  sso:
+    client-id: 10faabc5-0803-4ab4-96b1-53ee60ec52cf
+    client-secret: pPayJ6EGo9Y2MN6KgeKEuMg3
+    key: da936580-4580-4cf4-a0ce-b9ed9823b50e
+    host: http://best.legendcapital.com.cn
+    url:
+      auth: /sso/oauth2.0/authorize
+      token: /sso/oauth2.0/accessToken
+      user-info: /sso/oauth2.0/profile
+      logout: /sso/logout
+      heart-beat: /sso/oauth2.0/heartbeat
+      get-users: /api/hrm/resful/getHrmUserInfoWithPage

@@ -1,0 +1,19 @@
+spring:
+  redis:
+    host: 172.17.0.17
+    port: 6379
+    password: Compass@hongyun
+  datasource:
+    host: 172.17.0.17
+    database: compass
+    port: 1433
+    url: jdbc:sqlserver://${spring.datasource.host}:${spring.datasource.port};DatabaseName=${spring.datasource.database}
+    username: sa
+    password: Compass@hongyun
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+server:
+  port: 8080
+
+app:
+  file-view: 
+    add-task: http://kfv.servicecome.cn/addTask?url=
