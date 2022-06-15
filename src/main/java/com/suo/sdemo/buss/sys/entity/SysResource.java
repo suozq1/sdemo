@@ -71,16 +71,5 @@ public class SysResource implements Serializable {
     public void setDeleted(Integer deleted) {
         this.deleted = deleted;
     }
-
-    @Override
-    public String toString() {
-        return "SysResource{" +
-            "resourceId=" + resourceId +
-            ", name=" + name +
-            ", code=" + code +
-            ", parentId=" + parentId +
-            ", type=" + type +
-            ", deleted=" + deleted +
-        "}";
-    }
+   
 }

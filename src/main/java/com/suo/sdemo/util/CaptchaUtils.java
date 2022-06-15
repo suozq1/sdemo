@@ -14,7 +14,11 @@ import org.springframework.stereotype.Component;
 import com.wf.captcha.SpecCaptcha;
 import com.wf.captcha.base.Captcha;
 
-
+/**
+ * 
+ * @author suo
+ *
+ */
 public class CaptchaUtils {
 	public static interface SessionDao{
 		public void set(String key,String value) ;

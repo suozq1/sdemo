@@ -9,6 +9,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,15 +17,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.suo.sdemo.buss.sys.entity.SysUser;
-import com.suo.sdemo.buss.sys.pojo.form.LoginForm;
+import com.suo.sdemo.buss.sys.pojo.form.SignForm;
+import com.suo.sdemo.buss.sys.service.SysUserService;
 import com.suo.sdemo.common.AppResponse;
 import com.suo.sdemo.common.ErrorCode;
+import com.suo.sdemo.common.email.EmailSender;
 import com.suo.sdemo.common.exception.AppException;
 import com.suo.sdemo.util.AppUtils;
 import com.suo.sdemo.util.CaptchaUtils;
 import com.suo.sdemo.util.CaptchaUtils.SessionDao;
+import com.suo.sdemo.util.ReflectionUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,9 +41,15 @@ public class LoginController {
 	@Autowired
 	SessionDao sessionDao;
 	
+	@Autowired
+	SysUserService sysUserService;
+	
+	@Autowired
+	EmailSender emailSender;
+	
 	@ApiOperation("登录")
-	@PostMapping("/login")
-	public AppResponse<Object> login(@RequestBody @Validated LoginForm user,HttpServletRequest request){
+	@PostMapping("/sign-in")
+	public AppResponse<Object> signIn(@RequestBody @Validated SignForm user,HttpServletRequest request){
 		AppResponse<Object> r = AppResponse.success(request);
 		if(!CaptchaUtils.verAndClear(user.getCkey(), user.getCaptcha(), sessionDao)) {
 			r.setErrorCode(ErrorCode.CAPTCHA_ERROR);
@@ -61,6 +70,20 @@ public class LoginController {
 			throw new AppException(ErrorCode.PARAM_MISS);
 		}
 		CaptchaUtils.out(ckey,sessionDao,response);
+	}
+	
+	@ApiOperation("用户注册")
+	@PostMapping("/sign-up")
+	public AppResponse<?> signUp(@RequestBody @Validated SignForm user,HttpServletRequest request,HttpServletResponse response) throws NoSuchMessageException, Exception{
+		AppResponse<Object> r = AppResponse.success(request);
+		if(!CaptchaUtils.verAndClear(user.getCkey(), user.getCaptcha(), sessionDao)) {
+			r.setErrorCode(ErrorCode.CAPTCHA_ERROR);
+			return r;
+		}
+		SysUser u = ReflectionUtils.newInstance(SysUser.class, user);
+		sysUserService.insert(u);
+		emailSender.sendSignUpEmail(request, u);
+		return r;
 	}
 	
 }

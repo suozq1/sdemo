@@ -23,6 +23,7 @@ import com.suo.sdemo.buss.sys.pojo.form.SysUserCreateForm;
 import com.suo.sdemo.buss.sys.pojo.form.SysUserSearchForm;
 import com.suo.sdemo.buss.sys.service.SysUserService;
 import com.suo.sdemo.common.ErrorCode;
+import com.suo.sdemo.common.email.EmailSender;
 import com.suo.sdemo.common.exception.AppException;
 import com.suo.sdemo.util.AppUtils;
 
@@ -40,6 +41,9 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Autowired
     SysResourceMapper sysResourceMapper;
+    
+    @Autowired
+    EmailSender emailSender;
 
 
     @Override
@@ -130,6 +134,12 @@ public class SysUserServiceImpl implements SysUserService {
         }
         return r;
     }
+
+	@Override
+	@Transactional
+	public void insert(SysUser user) {
+		sysUserMapper.insert(user);
+	}
 
    
 //    @Override

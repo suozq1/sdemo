@@ -2,14 +2,13 @@ spring:
   profiles:
     active: '@profiles.active@'
   application:
-    name: compass
+    name: sdemo
   messages:
     basename: i18n/messages
   redis:
     host: 10.103.237.33
     port: 6379
-#    password: lenovo123
-    key-prefix: compass
+    key-prefix: sdemo
     lock-expire-time: 30 #分钟,分布式锁过期时间
     jedis:
       pool:
@@ -19,7 +18,7 @@ spring:
   datasource:
     host: 127.0.0.1
     database: sdemo
-    port: 1433
+    port: 3306
     url: jdbc:mysql://${spring.datasource.host}:${spring.datasource.port}/${spring.datasource.database}?useUnicode=true&characterEncoding=UTF-8
     username: root
     password: root
@@ -36,18 +35,25 @@ spring:
     multipart:
       max-file-size: 500MB
       max-request-size: 1024MB
+  mail:
+    host: smtp.mxhichina.com
+    username: rdd@lenovoedu.com
+    password: Lenovo@123
+    default-encoding: UTF-8
+    protocol: smtp
+    from: rdd@lenovoedu.com
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   
 server:
   port: 8080
   servlet: 
-    context-path: /compass
+    context-path: /sdemo
 
 logging:
   file:
     path: 
-    name: /logs/compass/compass.log
+    name: /logs/sdemo/sdemo.log
     max-history: 30
   level:
     com.hongyun.compass: DEBUG
@@ -65,25 +71,4 @@ cors:
 
 #文件存储地址
 file:
-  storage-path: /data/compass/files #上传文件父路径
-
-app:
-  report:
-    single:
-      compute-year: 4  
-  user:
-    password: 111111
-  file-view: #文件预览
-    add-task: http://kfv.lenovoedu.cn/addTask?url= #提前预览任务
-  sso:
-    client-id: 10faabc5-0803-4ab4-96b1-53ee60ec52cf
-    client-secret: pPayJ6EGo9Y2MN6KgeKEuMg3
-    key: da936580-4580-4cf4-a0ce-b9ed9823b50e
-    host: http://best.legendcapital.com.cn
-    url:
-      auth: /sso/oauth2.0/authorize
-      token: /sso/oauth2.0/accessToken
-      user-info: /sso/oauth2.0/profile
-      logout: /sso/logout
-      heart-beat: /sso/oauth2.0/heartbeat
-      get-users: /api/hrm/resful/getHrmUserInfoWithPage
+  storage-path: /data/sdemo/files #上传文件父路径

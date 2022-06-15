@@ -6,13 +6,14 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.suo.sdemo.buss.sys.entity.SysResource;
 import com.suo.sdemo.buss.sys.entity.SysRole;
 import com.suo.sdemo.buss.sys.entity.SysUser;
-import com.suo.sdemo.buss.sys.entity.SysUserRole;
 import com.suo.sdemo.buss.sys.pojo.form.SysUserCreateForm;
 import com.suo.sdemo.buss.sys.pojo.form.SysUserSearchForm;
 
 public interface SysUserService {
 
     SysUser findByEmail(String email);
+    
+    void insert(SysUser user);
 
     SysUser userLogin(String userName, String password);
 

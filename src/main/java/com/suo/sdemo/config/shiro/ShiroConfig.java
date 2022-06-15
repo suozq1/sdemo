@@ -111,7 +111,8 @@ public class ShiroConfig {
 		Map<String,String> filterChain = new LinkedHashMap<>();
 		
 		filterChain.put("/favicon.ico", "anon");
-		filterChain.put("/login", "anon");
+		filterChain.put("/sign-in", "anon");
+		filterChain.put("/sign-up", "anon");
 		filterChain.put("/captcha.png", "anon");
 		filterChain.put("/static/**", "anon");
 		//swagger放行

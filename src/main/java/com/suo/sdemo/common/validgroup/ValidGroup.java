@@ -16,4 +16,10 @@ public class ValidGroup {
 	
 	public static interface Select {
 	}
+	
+	public static interface SignUp {
+	}
+	
+	public static interface Login {
+	}
 }

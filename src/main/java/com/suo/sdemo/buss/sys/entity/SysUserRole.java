@@ -45,12 +45,4 @@ public class SysUserRole implements Serializable {
         this.userId = userId;
     }
 
-    @Override
-    public String toString() {
-        return "SysUserRole{" +
-            "id=" + id +
-            ", roleId=" + roleId +
-            ", userId=" + userId +
-        "}";
-    }
 }

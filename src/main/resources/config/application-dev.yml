@@ -1,30 +1,16 @@
 spring:
   redis:
-    host: 49.234.106.216
-#    host: 127.0.0.1
+    host: 127.0.0.1
     port: 6379
-    password: Compass@hongyun
   datasource:
-    host: 49.234.106.216
-#    host: 10.8.83.100
-#    host: 10.103.236.10
-    database: compass
-    port: 1433
-    url: jdbc:sqlserver://${spring.datasource.host}:${spring.datasource.port};DatabaseName=${spring.datasource.database}
-    username: sa
-    password: Compass@hongyun
-#    password: db@2021
-#    password: Lenovo@123 # 236.3
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    host: 127.0.0.1
+    database: sdemo
+    port: 3306
+    url: jdbc:mysql://${spring.datasource.host}:${spring.datasource.port}/${spring.datasource.database}?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver 
 
-app:
-  file-view: 
-    add-task: http://kfv.lenovoedu.cn/addTask?url=
-  sso:
-    client-id: 10faabc5-0803-4ab4-96b1-53ee60ec52cf
-    client-secret: pPayJ6EGo9Y2MN6KgeKEuMg3
-    key: da936580-4580-4cf4-a0ce-b9ed9823b50e
-    host: http://best.legendcapital.com.cn
 
       
       
