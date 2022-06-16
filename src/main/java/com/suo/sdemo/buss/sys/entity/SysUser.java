@@ -3,6 +3,8 @@ package com.suo.sdemo.buss.sys.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.Map;
 
@@ -23,6 +25,7 @@ public class SysUser implements Serializable {
 
     private String email;
 
+    @JsonIgnore
     private String password;
 
     private String nickname;

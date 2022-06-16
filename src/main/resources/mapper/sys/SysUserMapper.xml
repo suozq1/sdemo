@@ -7,4 +7,15 @@
         user_id, email, password, nickname, deleted
     </sql>
 
+	<select id="userManageList" resultType="com.suo.sdemo.buss.sys.entity.SysUser" >
+		SELECT u.* FROM sys_user u
+		<where>
+			u.deleted = ${@com.suo.sdemo.util.AppUtils@DEL_FALSE}
+			<if test="form.key!=null and form.key!=''">
+				and (u.nickname like concat('%',#{form.key},'%') or
+				u.email like concat('%',#{form.key},'%')
+				)
+			</if>
+		</where>
+	</select>
 </mapper>

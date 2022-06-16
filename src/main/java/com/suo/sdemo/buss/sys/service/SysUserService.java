@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.suo.sdemo.buss.sys.entity.SysResource;
 import com.suo.sdemo.buss.sys.entity.SysRole;
 import com.suo.sdemo.buss.sys.entity.SysUser;
-import com.suo.sdemo.buss.sys.pojo.form.SysUserCreateForm;
 import com.suo.sdemo.buss.sys.pojo.form.SysUserSearchForm;
 
 public interface SysUserService {
@@ -21,14 +20,14 @@ public interface SysUserService {
 
     IPage<SysUser> userManageList(SysUserSearchForm form);
 
-    void saveOrUpdate(SysUserCreateForm form);
+    void update(SysUser user);
 
     void delUser(Integer userId);
-
-//    List<SysUserRole> getAllUserRoles(Integer userId);
 
 	List<SysRole> getUserRoles(Integer id);
 
 	Boolean ifExist(String email, Integer userId);
+
+	SysUser findByUserId(Integer userId);
 
 }

@@ -9,18 +9,18 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.suo.sdemo.buss.sys.entity.SysUser;
-import com.suo.sdemo.buss.sys.pojo.form.SysUserCreateForm;
 import com.suo.sdemo.buss.sys.pojo.form.SysUserSearchForm;
 import com.suo.sdemo.buss.sys.service.SysUserService;
 import com.suo.sdemo.common.AppResponse;
+import com.suo.sdemo.common.ErrorCode;
 import com.suo.sdemo.common.enmus.SysResourceEnum;
+import com.suo.sdemo.util.AppUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,25 +43,32 @@ public class SysUserController {
         r.setData(sysUserService.userManageList(form));
         return r;
     }
+    
+    @ApiOperation("用户详情")
+    @GetMapping("/{userId}")
+    public AppResponse<SysUser> getUser(@PathVariable Integer userId,HttpServletRequest request){
+        AppResponse<SysUser> r = AppResponse.success(request);
+        if(!AppUtils.isPermitted(SysResourceEnum.CODE_RES_DATA_USER_ALL)&&!AppUtils.getCurrentUserId().equals(userId)) {
+        	r.setErrorCode(ErrorCode.UNAUTHORIZED);
+        	return r;
+        }
+        r.setData(sysUserService.findByUserId(userId));
+        return r;
+    }
 
-    @ApiOperation("新建或修改用户")
-    @PutMapping("/")
-    @RequiresPermissions(SysResourceEnum.CODE_RES_DATA_USER_ALL)
-    public AppResponse<String> saveOrUpdateUser(@RequestBody @Validated SysUserCreateForm form,
-        HttpServletRequest request) {
+    @ApiOperation("修改用户")
+    @PostMapping("/{userId}")
+    public AppResponse<String> updateUser(@PathVariable Integer userId, @RequestBody @Validated SysUser user, HttpServletRequest request) {
         AppResponse<String> r = AppResponse.success(request);
-        sysUserService.saveOrUpdate(form);
+        if(!AppUtils.isPermitted(SysResourceEnum.CODE_RES_DATA_USER_ALL)&&!AppUtils.getCurrentUserId().equals(userId)) {
+        	r.setErrorCode(ErrorCode.UNAUTHORIZED);
+        	return r;
+        }
+        user.setUserId(userId);
+        sysUserService.update(user);
         return r;
     }
 
-    @ApiOperation("检查账号是否存在")
-    @GetMapping("/email/{email}")
-    public AppResponse<Boolean> ifExist(HttpServletRequest request, @PathVariable String email,
-        Integer userId) {
-        AppResponse<Boolean> r = AppResponse.success(request);
-        r.setData(sysUserService.ifExist(email, userId));
-        return r;
-    }
 
     @ApiOperation("删除用户")
     @DeleteMapping("/{userId}")

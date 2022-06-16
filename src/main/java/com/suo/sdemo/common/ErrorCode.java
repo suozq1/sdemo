@@ -34,6 +34,7 @@ public enum ErrorCode {
     
     //4000 - 业务相关：和业务相关报错
     USER_DEL_OR_QUIT(4011,"用户离职或不存在"),
+    EMAIL_EXIST(4012,"邮箱已经注册！")
     ;
 	public static final String CODE_PARAM_NULL = "1001";
 

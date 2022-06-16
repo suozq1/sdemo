@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -73,7 +74,7 @@ public class LoginController {
 	}
 	
 	@ApiOperation("用户注册")
-	@PostMapping("/sign-up")
+	@PutMapping("/sign-up")
 	public AppResponse<?> signUp(@RequestBody @Validated SignForm user,HttpServletRequest request,HttpServletResponse response) throws NoSuchMessageException, Exception{
 		AppResponse<Object> r = AppResponse.success(request);
 		if(!CaptchaUtils.verAndClear(user.getCkey(), user.getCaptcha(), sessionDao)) {
@@ -81,6 +82,11 @@ public class LoginController {
 			return r;
 		}
 		SysUser u = ReflectionUtils.newInstance(SysUser.class, user);
+		SysUser udb = sysUserService.findByEmail(u.getEmail());
+		if(udb!=null) {
+			r.setErrorCode(ErrorCode.EMAIL_EXIST);
+			return r;
+		}
 		sysUserService.insert(u);
 		emailSender.sendSignUpEmail(request, u);
 		return r;

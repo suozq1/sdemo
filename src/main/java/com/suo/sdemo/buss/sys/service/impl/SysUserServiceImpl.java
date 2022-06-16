@@ -1,6 +1,5 @@
 package com.suo.sdemo.buss.sys.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +18,6 @@ import com.suo.sdemo.buss.sys.mapper.SysResourceMapper;
 import com.suo.sdemo.buss.sys.mapper.SysRoleMapper;
 import com.suo.sdemo.buss.sys.mapper.SysUserMapper;
 import com.suo.sdemo.buss.sys.mapper.SysUserRoleMapper;
-import com.suo.sdemo.buss.sys.pojo.form.SysUserCreateForm;
 import com.suo.sdemo.buss.sys.pojo.form.SysUserSearchForm;
 import com.suo.sdemo.buss.sys.service.SysUserService;
 import com.suo.sdemo.common.ErrorCode;
@@ -100,12 +98,14 @@ public class SysUserServiceImpl implements SysUserService {
         return sysUserMapper.userManageList(form.getPage(), form);
     }
 
+    
+    /**
+     * 更新用户
+     */
     @Override
     @Transactional
-    public void saveOrUpdate(SysUserCreateForm form) {
-        Integer userId = AppUtils.getCurrentUser().getUserId();
-        LocalDateTime now = LocalDateTime.now();
-        
+    public void update(SysUser user) {
+    	sysUserMapper.updateById(user);
     }
 
     @Override
@@ -137,29 +137,12 @@ public class SysUserServiceImpl implements SysUserService {
 		sysUserMapper.insert(user);
 	}
 
-   
-//    @Override
-//    public List<SysUserRoleVo> getAllUserRoles(Integer userId) {
-//        List<SysUserRoleVo> list = sysRoleMapper.selectAll(AppUtils.IS_DEL_FALSE);
-//        list.forEach(x -> {
-//            if (SysRole.COMPANY_IN.equals(x.getInCompany())) {
-//                List<Company> companys = sysUserRoleMapper.selectByUserIdAndRoleId(userId, x.getRoleId());
-//                if (companys != null && !companys.isEmpty()) {
-//                    x.setChecked(true);
-//                    x.setCompanys(companys);
-//                }
-//            } else {
-//                LambdaQueryWrapper<SysUserRole> q = new LambdaQueryWrapper<>();
-//                q.eq(SysUserRole::getRoleId, x.getRoleId()).eq(SysUserRole::getUserId, userId);
-//                List<SysUserRole> urs = sysUserRoleMapper.selectList(q);
-//                if (urs != null && !urs.isEmpty()) {
-//                    x.setChecked(true);
-//                }
-//            }
-//        });
-//        return list;
-//    }
-
+	@Override
+	public SysUser findByUserId(Integer userId) {
+		LambdaQueryWrapper<SysUser> query = new LambdaQueryWrapper<>();
+		query.eq(SysUser::getUserId, userId);
+		return sysUserMapper.selectOne(query);
+	}
 
    
 }

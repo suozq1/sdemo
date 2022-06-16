@@ -6,5 +6,8 @@
     <sql id="Base_Column_List">
         role_id, name, code
     </sql>
-
+    <select id="findByUserId" resultType="com.suo.sdemo.buss.sys.entity.SysRole">
+		SELECT r.* FROM sys_role r 
+		INNER JOIN sys_user_role ur on ur.role_id = r.role_id and ur.user_id = #{userId}
+	</select>
 </mapper>
