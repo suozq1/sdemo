@@ -144,5 +144,11 @@ public class SysUserServiceImpl implements SysUserService {
 		return sysUserMapper.selectOne(query);
 	}
 
+	@Override
+	@Transactional
+	public void delUsers(List<Integer> userIds) {
+		sysUserMapper.deleteUsers(userIds);
+	}
+
    
 }

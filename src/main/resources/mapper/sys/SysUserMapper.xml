@@ -18,4 +18,20 @@
 			</if>
 		</where>
 	</select>
+	
+	<update id="deleteUsers">
+	   UPDATE sys_user SET deleted = ${@com.suo.sdemo.util.AppUtils@DEL_TRUE}
+	   <where>
+		   <choose>
+		     <when test="userIds!=null and userIds.size >0">
+		     	user_id in 
+		     	<foreach collection="userIds" item="userId" open="(" close=")" separator=",">
+		     	#{userId}
+		     	</foreach>
+		     </when>
+		     <otherwise> 1!=1</otherwise>
+		   </choose>
+	   	  
+	   </where>
+	</update>
 </mapper>

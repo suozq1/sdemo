@@ -1,6 +1,9 @@
 package com.suo.sdemo.buss.sys.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
+@Valid
 @RequestMapping({"/user", "/users"})
 @Api(value = "用户模块", tags = "用户相关")
 public class SysUserController {
@@ -76,6 +80,19 @@ public class SysUserController {
     public AppResponse<?> delUser(@PathVariable Integer userId, HttpServletRequest request) {
         AppResponse<?> r = AppResponse.success(request);
         sysUserService.delUser(userId);
+        return r;
+    }
+    
+    @ApiOperation("批量删除用户")
+    @DeleteMapping("/")
+    @RequiresPermissions(SysResourceEnum.CODE_RES_DATA_USER_ALL)
+    public AppResponse<?> delUsers(@RequestBody List<Integer> userIds, HttpServletRequest request) {
+        AppResponse<?> r = AppResponse.success(request);
+        if(userIds==null || userIds.isEmpty()) {
+        	r.setErrorCode(ErrorCode.PARAM_NULL);
+        	return r;
+        }
+        sysUserService.delUsers(userIds);
         return r;
     }
 

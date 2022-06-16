@@ -30,4 +30,6 @@ public interface SysUserService {
 
 	SysUser findByUserId(Integer userId);
 
+	void delUsers(List<Integer> userIds);
+
 }
