@@ -1,2 +1,2 @@
-#exec /usr/sbin/init
-java -jar /app.jar
+java -jar /app.jar > /dev/null &
+exec /usr/sbin/init
