@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @Valid
-@RequestMapping({"/user", "/users"})
+@RequestMapping({"/user"})
 @Api(value = "用户模块", tags = "用户相关")
 public class SysUserController {
 
