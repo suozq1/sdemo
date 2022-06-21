@@ -1,6 +1,7 @@
 package com.suo.sdemo.common.email;
 
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -20,7 +22,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.suo.sdemo.buss.sys.entity.SysUser;
@@ -36,6 +37,9 @@ public class EmailSender {
 	  private static final String TEMP_EXT = ".ftl";
 	  
 	  private static final String WELCOME_I18N_CODE = "welcome";
+	  
+	  @Autowired
+	  private MessageSource messageSource;
 	  
 	  public static enum EmailTemp{
 		  SIGN_UP("/signup")
@@ -73,8 +77,7 @@ public class EmailSender {
 		  String contentTemp = getTemplate(locale, EmailTemp.SIGN_UP);
 		  Map<String,String> param = new HashMap<>();
 		  param.put("nickname", user.getNickname());
-		  WebApplicationContext ac = RequestContextUtils.findWebApplicationContext(request);
-		  sendMimeMail(user.getEmail(), ac.getMessage(WELCOME_I18N_CODE, null, locale), replace(contentTemp, param));
+		  sendMimeMail(user.getEmail(), messageSource.getMessage(WELCOME_I18N_CODE, null, locale), replace(contentTemp, param));
 	  }
 	  
 	  private String replace(String temp,Map<String,String> param) {
@@ -95,7 +98,7 @@ public class EmailSender {
 		  if(!TEMP_CACHE.containsKey(key)) {
 			  StringBuilder sb = new StringBuilder();
 			  Resource r = findResource(locale, emailTemp);
-			  try(InputStreamReader input =new InputStreamReader(r.getInputStream())){
+			  try(InputStreamReader input =new InputStreamReader(r.getInputStream(),Charset.forName("UTF-8"))){
 				  char[] chars = new char[100];
 				  while(input.read(chars)!=-1) {
 					  sb.append(chars);
