@@ -19,6 +19,9 @@
 项目依赖mysql和redis
 
 ### 运行
-`docker run -d --name=sdemo --privileged=true -p 8080:8080 -p 33066:3306 -p 6379:6379 suozq/sdemo:1.0`
+```bash
+docker run -d --name=sdemo --privileged=true -p 8080:8080 -p 33066:3306 -p 6379:6379 suozq/sdemo:1.0
+```
+
 使用docker即可一键运行，加入apipost进行接口测试即可
 
