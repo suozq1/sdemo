@@ -1,4 +1,4 @@
-FROM suozq/base:1.0
+FROM suozq/sdemo:0.1
 LABEL author = suozq@lenovoedu.com
 ARG JAR_FILE=sdemo-1.0.0.jar 
 COPY start.sh /start.sh
