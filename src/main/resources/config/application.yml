@@ -38,7 +38,7 @@ spring:
   mail:
     host: smtp.mxhichina.com
     username: rdd@lenovoedu.com
-    password: Lenovo@123
+    password: 1234Qwer
     default-encoding: UTF-8
     protocol: smtp
     from: rdd@lenovoedu.com
